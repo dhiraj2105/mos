@@ -12,6 +12,7 @@
     "express",
     "typescript",
     "nodejs",
+    "flask",
     "mos",
     "memoryos",
     "rag",
