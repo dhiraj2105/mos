@@ -14,7 +14,26 @@ type MemoryParams = {
 };
 
 async function createMemory(req: Request, res: Response): Promise<void> {
-  const result = await createMemoryService(req.body);
+  const { userId, content } = req.body ?? {};
+
+  if (
+    typeof userId !== "string" ||
+    userId.trim() === "" ||
+    typeof content !== "string" ||
+    content.trim() === ""
+  ) {
+    res
+      .status(400)
+      .json({ error: "Invalid request: userId and content are required" });
+    return;
+  }
+
+  const payload = {
+    userId: userId.trim(),
+    content: content.trim(),
+    importanceScore: req.body.importanceScore,
+  };
+  const result = await createMemoryService(payload);
   res.status(201).json(result);
 }
 
