@@ -15,7 +15,7 @@ async function searchMemories(queryText: string): Promise<RankedMemory[]> {
   const embedding = await embedText(queryText);
 
   const result = await query<MemoryRow>(
-    "SELECT id, user_id, content, importance_score, created_at, embedding <=> $1 AS similarity_distance FROM memories ORDER BY similarity_distance LIMIT 5",
+    "SELECT id, user_id, content, importance_score, created_at, embedding <=> $1 AS similarity_distance FROM memories WHERE expires_at IS NULL OR expires_at > NOW() ORDER BY similarity_distance LIMIT 5",
     [embedding],
   );
 

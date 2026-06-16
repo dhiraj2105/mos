@@ -20,7 +20,7 @@ async function buildContext(
   const embedding = await embedText(queryText);
 
   const result = await query(
-    "SELECT id, user_id, content, importance_score, created_at, embedding <=> $1 AS similarity_distance FROM memories WHERE user_id = $2 ORDER BY similarity_distance LIMIT 5",
+    "SELECT id, user_id, content, importance_score, created_at, embedding <=> $1 AS similarity_distance FROM memories WHERE user_id = $2 AND (expires_at IS NULL OR expires_at > NOW()) ORDER BY similarity_distance LIMIT 5",
     [embedding, userId],
   );
 
