@@ -3,3 +3,4 @@
 /ai
 /logs
 .venv/
+dist/
