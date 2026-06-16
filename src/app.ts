@@ -1,6 +1,7 @@
 import express from "express";
 import { router as memoryRoutes } from "./modules/memory/memory.routes.js";
 import { router as retrievalRoutes } from "./modules/retrieval/retrieval.routes.js";
+import { router as contextRoutes } from "./modules/context/context.routes.js";
 import { logger } from "./config/logger.js";
 
 export default function createApp(): express.Application {
@@ -25,6 +26,7 @@ export default function createApp(): express.Application {
 
   app.use("/memories", memoryRoutes);
   app.use("/search", retrievalRoutes);
+  app.use("/context", contextRoutes);
 
   return app;
 }
