@@ -2,6 +2,7 @@ import {
   insertMemory,
   selectMemoriesByUserId,
   removeMemory,
+  updateMemory,
 } from "./memory.repository.js";
 import { embedText } from "../embeddings/embedding.service.js";
 
@@ -18,4 +19,13 @@ async function deleteMemoryService(id: string): Promise<any> {
   return removeMemory(id);
 }
 
-export { createMemoryService, getMemoriesService, deleteMemoryService };
+async function updateMemoryService(id: string, data: any): Promise<any> {
+  return updateMemory(id, data);
+}
+
+export {
+  createMemoryService,
+  getMemoriesService,
+  deleteMemoryService,
+  updateMemoryService,
+};
