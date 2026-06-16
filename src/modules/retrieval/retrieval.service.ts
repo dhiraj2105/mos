@@ -1,5 +1,6 @@
 import { query } from "../../db/postgres.js";
 import { embedText } from "../embeddings/embedding.service.js";
+import { rankMemories, type RankedMemory } from "../ranking/ranking.service.js";
 
 type MemoryRow = {
   id: string;
@@ -7,17 +8,18 @@ type MemoryRow = {
   content: string;
   importance_score: number;
   created_at: string;
+  similarity_distance: number;
 };
 
-async function searchMemories(queryText: string): Promise<MemoryRow[]> {
+async function searchMemories(queryText: string): Promise<RankedMemory[]> {
   const embedding = await embedText(queryText);
 
   const result = await query<MemoryRow>(
-    "SELECT id, user_id, content, importance_score, created_at FROM memories ORDER BY embedding <=> $1 LIMIT 5",
+    "SELECT id, user_id, content, importance_score, created_at, embedding <=> $1 AS similarity_distance FROM memories ORDER BY similarity_distance LIMIT 5",
     [embedding],
   );
 
-  return result.rows;
+  return rankMemories(result.rows);
 }
 
 export { searchMemories };
