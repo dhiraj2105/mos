@@ -3,9 +3,11 @@ import {
   selectMemoriesByUserId,
   removeMemory,
 } from "./memory.repository.js";
+import { embedText } from "../embeddings/embedding.service.js";
 
 async function createMemoryService(data: any): Promise<any> {
-  return insertMemory(data);
+  const embedding = await embedText(data.content);
+  return insertMemory({ ...data, embedding });
 }
 
 async function getMemoriesService(userId: string): Promise<any> {

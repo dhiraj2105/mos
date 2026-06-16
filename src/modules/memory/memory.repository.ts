@@ -5,8 +5,8 @@ async function insertMemory(data: any): Promise<any> {
     typeof data.importanceScore === "number" ? data.importanceScore : 5;
 
   const result = await query(
-    "INSERT INTO memories (user_id, content, importance_score) VALUES ($1, $2, $3) RETURNING id",
-    [data.userId, data.content, importance],
+    "INSERT INTO memories (user_id, content, importance_score, embedding) VALUES ($1, $2, $3, $4) RETURNING id",
+    [data.userId, data.content, importance, data.embedding],
   );
   return result.rows[0];
 }
