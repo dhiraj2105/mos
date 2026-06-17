@@ -1,6 +1,6 @@
 {
   "name": "mos",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MOS (MemoryOS) is a lightweight memory infrastructure service for LLM applications.",
   "main": "index.js",
   "scripts": {
