@@ -15,7 +15,5 @@ COPY . .
 
 EXPOSE 5000
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:5000/embed', json={'text':'test'}, timeout=2)"
 
-CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=5000"]
+CMD ["python", "app.py"]
