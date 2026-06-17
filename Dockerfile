@@ -22,6 +22,9 @@ RUN npm ci --only=production && \
     addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001
 
+
+RUN mkdir -p logs && chown -R nodejs:nodejs logs
+
 COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
 
 USER nodejs
