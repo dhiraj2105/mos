@@ -23,23 +23,20 @@ services:
       FLASK_ENV: production
     depends_on:
       - postgres
+    volumes:
+      - ./python-service/models:/app/models
     healthcheck:
       test:
         [
           "CMD",
-          "curl",
-          "-f",
-          "http://localhost:5000/embed",
-          "-X",
-          "POST",
-          "-H",
-          "Content-Type: application/json",
-          "-d",
-          '{"text":"test"}',
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')",
         ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 300s
 
   backend:
     build: .
