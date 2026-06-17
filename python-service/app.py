@@ -1,10 +1,18 @@
 from flask import Flask, jsonify, request, abort
 from sentence_transformers import SentenceTransformer
+from pathlib import Path
 
 app = Flask(__name__)
 
+CACHE_DIR = Path(__file__).parent / "models"
+
 # Load model on startup
-model = SentenceTransformer("all-MiniLM-L6-v2")
+print("Loading embedding model...")
+
+model = SentenceTransformer("all-MiniLM-L6-v2",
+                            cache_folder=str(CACHE_DIR))
+
+print("Embedding model loaded.")
 
 
 @app.route("/embed", methods=["POST"])
@@ -27,6 +35,9 @@ def embed():
         "embedding": emb.tolist(),
     })
 
+@app.route("/health", methods=["GET"])
+def health():
+    return {"status": "healthy"}, 200
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=5000,debug=True)
+    app.run(host="0.0.0.0",port=5000)
