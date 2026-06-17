@@ -68,8 +68,6 @@ MOS uses the following runtime variables:
 PORT=3000
 DATABASE_URL=postgresql://postgres:password@localhost:5432/mos
 EMBEDDING_SERVICE_URL=http://localhost:5000
-NODE_ENV=production
-FLASK_ENV=production
 ```
 
 > Note: When using `docker-compose`, the backend connects to `postgres` and `embedding` service names directly.
@@ -194,7 +192,7 @@ This starts three services:
 
 ### Docker Compose details
 
-- Postgres image: `pgvector/pgvector:pg16-latest`
+- Postgres image: `pgvector/pgvector:pg16`
 - Backend port: `3000`
 - Embedding port: `5000`
 - Postgres password: `password`
