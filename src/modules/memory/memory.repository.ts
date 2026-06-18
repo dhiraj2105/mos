@@ -7,16 +7,11 @@ async function insertMemory(data: any): Promise<any> {
     typeof data.category === "string" ? data.category : "general";
   const expiresAt = data.expiresAt || null;
 
+  const vectorString = `[${data.embedding.join(",")}]`;
+
   const result = await query(
-    "INSERT INTO memories (user_id, content, importance_score, embedding, category, expires_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
-    [
-      data.userId,
-      data.content,
-      importance,
-      data.embedding,
-      category,
-      expiresAt,
-    ],
+    "INSERT INTO memories (user_id, content, importance_score, embedding, category, expires_at) VALUES ($1, $2, $3, $4::vector, $5, $6) RETURNING id",
+    [data.userId, data.content, importance, vectorString, category, expiresAt],
   );
   return result.rows[0];
 }
